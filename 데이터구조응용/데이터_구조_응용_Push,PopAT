@@ -128,7 +128,7 @@ int pop()
 
         }
         else
-            return stack[top--];         // 현재 top의 원소를 삭제한 후 top 감소
+            return stack[top--];         // 현재 top의 원소를 삭제한 후 top 감소한다
     }
 }
 
