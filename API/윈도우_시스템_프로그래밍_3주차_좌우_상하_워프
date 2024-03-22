@@ -64,7 +64,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	switch (iMsg) 
 	{
 	case WM_CREATE:
-		strcpy(linebfr, "Wind");
+		strcpy(linebfr, "key");
 		col = 0;
 		old_x = x = 300;
 		old_y = y = 200;
