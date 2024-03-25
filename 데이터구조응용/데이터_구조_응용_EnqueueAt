@@ -1,0 +1,214 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define QUEUE_SIZE 10
+
+int* queue;
+int	front;			// 전단
+int	rear;			// 후단
+int size = 1;
+
+int isEmpty() {
+	if (front == rear) return 1;
+	else return 0;
+}
+
+// 큐가 포화 상태인지 확인하는 연산
+int isFull() {
+	if (front == (rear + 1) % (QUEUE_SIZE * size)) return 1;
+	else return 0;
+}
+
+int queueSize() {
+	return(rear - front + (QUEUE_SIZE * size)) % (QUEUE_SIZE * size);
+}
+
+//void enqueueAt(int index, int item) {
+//	if (index < 0 || index >= QUEUE_SIZE * size) {
+//		printf("오류발생!\n");
+//		return;
+//	}
+//
+//	if (isFull()) {
+//		printf("스택이 꽉 찼습니다.\n");
+//
+//		// 새로운 큐를 임시로 저장할 배열 생성
+//		int* temp = (int*)malloc(QUEUE_SIZE * sizeof(int));
+//
+//		// 인덱스 이후의 값들을 temp 배열로 복사
+//		int j = 0;
+//		for (int i = (index + front) % (QUEUE_SIZE * size); i != (rear + 1) % (QUEUE_SIZE * size); i = (i + 1) % (QUEUE_SIZE * size)) {
+//			temp[j++] = queue[i];
+//		}
+//
+//		// 큐 재조정
+//		front = 0;
+//		rear = j - 1;
+//
+//		// 큐에 새로운 아이템 삽입
+//		queue[front] = item;
+//		size++;
+//
+//		// temp 배열에서 큐로 값들을 복사
+//		for (int i = 0; i < j; i++) {
+//			queue[(front + i + 1) % (QUEUE_SIZE * size)] = temp[i];
+//		}
+//
+//		free(temp);
+//	}
+//	else {
+//		printf("안찼음\n");
+//
+//		// rear 위치 업데이트
+//		rear = (rear + 1) % (QUEUE_SIZE * size);
+//
+//		// index 이후의 값들을 한 칸씩 뒤로 이동
+//		for (int i = rear; i > (index + front) % (QUEUE_SIZE * size); i = (i - 1 + QUEUE_SIZE * size) % (QUEUE_SIZE * size)) {
+//			queue[i] = queue[(i - 1 + QUEUE_SIZE * size) % (QUEUE_SIZE * size)];
+//		}
+//
+//		// index 위치에 아이템 삽입
+//		queue[(index + front) % (QUEUE_SIZE * size)] = item;
+//	}
+//}
+
+void enqueueAt(int index, int item) 
+{
+	if (isFull()) {
+		printf(" Full QUEUE\n");
+		int* temp = (int*)malloc((QUEUE_SIZE * size) * sizeof(int));
+
+		if (rear > front)
+			for (int i = 0; i < (rear + 1); i++) temp[i] = queue[i];
+		else {
+			for (int i = front; i < (QUEUE_SIZE * size); i++) temp[i - front] = queue[i];
+			for (int i = 0; i < (rear + 1); i++) temp[QUEUE_SIZE * size - (rear + 1) + i] = queue[i];
+			front = 0;
+			rear = QUEUE_SIZE * size - 1;
+		}
+
+		free(queue);
+		queue = (int*)malloc((QUEUE_SIZE * (size + 1)) * sizeof(int));
+		for (int i = 0; i < (rear + 1); i++) queue[i] = temp[i];
+		rear = (rear + 1) % (QUEUE_SIZE * (size + 1));
+		queue[index] = item;
+		size++;
+		free(temp);
+	}
+
+	else {
+		//여기서 인덱스 이후 값을 밀어줘야함
+		for (int i = index + 1; i < QUEUE_SIZE * size; i++)
+		{
+			queue[i + 1] = queue[i];
+		}
+		rear = (rear + 1) % (QUEUE_SIZE * size);
+		queue[index] = item;
+	}	
+}
+
+
+void enqueue(int item) 
+{
+	if (isFull()) {
+		printf(" Full QUEUE\n");
+		int* temp = (int*)malloc((QUEUE_SIZE * size) * sizeof(int));
+
+		if (rear > front)
+			for (int i = 0; i < (rear + 1); i++) temp[i] = queue[i];
+		else {
+			for (int i = front; i < (QUEUE_SIZE * size); i++) temp[i - front] = queue[i];
+			for (int i = 0; i < (rear + 1); i++) temp[QUEUE_SIZE * size - (rear + 1) + i] = queue[i];
+			front = 0;
+			rear = QUEUE_SIZE * size - 1;
+		}
+
+		free(queue);
+		queue = (int*)malloc((QUEUE_SIZE * (size + 1)) * sizeof(int));
+		for (int i = 0; i < (rear + 1); i++) queue[i] = temp[i];
+		rear = (rear + 1) % (QUEUE_SIZE * (size + 1));
+		queue[rear] = item;
+		size++;
+		free(temp);
+	}
+
+	else {
+		rear = (rear + 1) % (QUEUE_SIZE * size);
+		queue[rear] = item;
+	}
+}
+
+int dequeue() {
+	if (isEmpty()) {	// 큐가 공백 상태인 경우
+		printf("\n\n Queue is Empty!!\n");
+		return 0;
+	}
+	else
+	{
+		if (queueSize() % QUEUE_SIZE == 0)
+		{
+			printf(" CHANGE DEQUEUE\n");
+			int re;
+			int* temp = (int*)malloc((QUEUE_SIZE * (size - 1)) * sizeof(int));
+
+			re = queue[front + 1];
+
+			if (rear > front)
+				for (int i = front + 1; i < rear + 1; i++) temp[i - (front + 1)] = queue[i];
+			else {
+				for (int i = front + 1; i < QUEUE_SIZE * size; i++) temp[i - (front + 1)] = queue[i];
+				//for (int i = 0; i < (rear + 1); i++) temp[QUEUE_SIZE * (size - 1) - (rear + 1) + i] = queue[i];
+
+				for (int i = 0; i < (rear + 1); i++) temp[i+ QUEUE_SIZE * size-front] = queue[i];
+			}
+
+			free(queue);
+
+			queue = (int*)malloc((QUEUE_SIZE * (size - 1)) * sizeof(int));
+
+			for (int i = 0; i < QUEUE_SIZE * (size - 1); i++) queue[i] = temp[i];
+
+			front = 0;
+			rear = QUEUE_SIZE * (size - 1) - 1;
+			size--;
+
+			free(temp);
+			return re;
+		}
+		else {
+			front = (front + 1) % (QUEUE_SIZE * size);
+			return queue[front];
+		}
+	}
+	return 0;
+}
+
+// 큐의 원소를 출력하는 연산
+void printQueue() {
+	int i, maxi = rear;
+	if (front >= rear) maxi += (QUEUE_SIZE * size);
+	printf("QUEUE SIZE [%d]\n", (QUEUE_SIZE * size));
+	printf("\n QUEUE [ ");
+	for (i = front + 1; i <= maxi; i++)
+		printf("%d ", queue[i % (QUEUE_SIZE * size)]);
+	printf("]\n");
+}
+
+void main(void) {
+	int i;
+	queue = (int*)malloc(QUEUE_SIZE * sizeof(int));
+
+	for (i = 1; i < 10; i++) enqueue(i);
+	printQueue();
+
+	for (i = 1; i < 5; i++) dequeue();
+	printQueue();
+
+	for (i = 10; i < 16; i++) enqueue(i);
+	printQueue();
+
+	enqueueAt(2, 100);
+	printQueue();
+
+	free(queue);
+	getchar();
+}
