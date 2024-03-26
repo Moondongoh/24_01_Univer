@@ -75,6 +75,8 @@ void enqueueAt(int index, int item)
 {
 	if (isFull()) {
 		printf(" Full QUEUE\n");
+
+		// 임시 변수
 		int* temp = (int*)malloc((QUEUE_SIZE * size) * sizeof(int));
 
 		if (rear > front)
@@ -86,23 +88,36 @@ void enqueueAt(int index, int item)
 			rear = QUEUE_SIZE * size - 1;
 		}
 
+		// queue 비우고 사이즈 키워서 다시 만듬
 		free(queue);
 		queue = (int*)malloc((QUEUE_SIZE * (size + 1)) * sizeof(int));
-		for (int i = 0; i < (rear + 1); i++) queue[i] = temp[i];
+
+		for (int i = 0; i < (rear + 1); i++) 
+			queue[i] = temp[i];
 		rear = (rear + 1) % (QUEUE_SIZE * (size + 1));
-		queue[index] = item;
+
+		for (int i = rear + 1; i > index; i--) 
+		{
+			queue[i] = queue[i - 1];
+		}
+		queue[index+1] = item;
 		size++;
 		free(temp);
 	}
 
-	else {
+	else 
+	{
 		//여기서 인덱스 이후 값을 밀어줘야함
-		for (int i = index + 1; i < QUEUE_SIZE * size; i++)
+		for (int i = rear; i > index; i--)
 		{
-			queue[i + 1] = queue[i];
+			if (i == 0) {
+				i = QUEUE_SIZE * size;
+			}
+			queue[(i + 1) % (QUEUE_SIZE * size)] = queue[i];
 		}
+		queue[index+1] = item;
 		rear = (rear + 1) % (QUEUE_SIZE * size);
-		queue[index] = item;
+
 	}	
 }
 
@@ -206,7 +221,7 @@ void main(void) {
 	for (i = 10; i < 16; i++) enqueue(i);
 	printQueue();
 
-	enqueueAt(2, 100);
+	enqueueAt(11, 100);
 	printQueue();
 
 	free(queue);
