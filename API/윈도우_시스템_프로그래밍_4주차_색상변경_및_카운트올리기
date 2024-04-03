@@ -9,40 +9,40 @@ COLORREF TextColor;
 
 LPCTSTR lpszClass = TEXT("New Title Hong Gil Dong");
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, //WINAPI : 윈도우 프로그램이라는 의미
-		   LPSTR lpszCmdLine, int nCmdShow)						 //hInstance : 운영체제의 커널이 응용 프로그램에 부여한 ID
-{																 //szCmdLine : 커멘트라인 상에서 프로그램 구동 시 전달된 문자열
-	HWND	hwnd;												 //iCmdShow : 윈도우가 화면에 출력될 형태
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, //WINAPI : 윈ⓒ도伊?우칒 프A로짪그쐴?램ㄱ?이I라?는쩇 의C미?
+		   LPSTR lpszCmdLine, int nCmdShow)						 //hInstance : 운칒영??체¼제|의C 커¿널?이I 응A용칎 프A로짪그쐴?램ㄱ?에??부촇여??한N ID
+{																 //szCmdLine : 커¿멘촡트、?라?인I 상?에??서品?프A로짪그쐴?램ㄱ?구쐼?동醫?시? 전u달ⅷ?된? 문取?자U열??
+	HWND	hwnd;												 //iCmdShow : 윈ⓒ도伊?우칒가튀?화­면촦에??출a력짞될? 형u태A
 	MSG		msg;
-	WNDCLASS WndClass;											 //WndClass 라는 구조체 정의									 
-	WndClass.style			= CS_HREDRAW | CS_VREDRAW;			 //출력스타일 : 수직/수평의 변화시 다시 그림
-	WndClass.lpfnWndProc	= WndProc;							 //프로시저 함수명
-	WndClass.cbClsExtra		= 0;								 //O/S 사용 여분 메모리 (Class)
-	WndClass.cbWndExtra		= 0;								 //O/s 사용 여분 메모리 (Window)
-	WndClass.hInstance		= hInstance;						 //응용 프로그램 ID
-	WndClass.hIcon			= LoadIcon(NULL, IDI_APPLICATION);	 //아이콘 유형
-	WndClass.hCursor		= LoadCursor(NULL, IDC_ARROW);		 //커서 유형
-	WndClass.hbrBackground	= (HBRUSH)GetStockObject(WHITE_BRUSH);//배경색   
-	WndClass.lpszMenuName	= NULL;								 //메뉴 이름
-	WndClass.lpszClassName	= lpszClass;						 //클래스 이름
-	RegisterClass(&WndClass);									 //앞서 정의한 윈도우 클래스의 주소
+	WNDCLASS WndClass;											 //WndClass 라?는쩇 구쐼?조¶체¼ 정¤의C									 
+	WndClass.style			= CS_HREDRAW | CS_VREDRAW;			 //출a력짞스翠?타¸일I : 수?직÷/수?평죓의C 변?화­시? 다쩤시? 그쐴?림З?
+	WndClass.lpfnWndProc	= WndProc;							 //프A로짪시?저u 함O수?명촫
+	WndClass.cbClsExtra		= 0;								 //O/S 사?용칎 여??분Ж?메Ж?모З?리Б?(Class)
+	WndClass.cbWndExtra		= 0;								 //O/s 사?용칎 여??분Ж?메Ж?모З?리Б?(Window)
+	WndClass.hInstance		= hInstance;						 //응A용칎 프A로짪그쐴?램ㄱ?ID
+	WndClass.hIcon			= LoadIcon(NULL, IDI_APPLICATION);	 //아奚?이I콘U 유?형u
+	WndClass.hCursor		= LoadCursor(NULL, IDC_ARROW);		 //커¿서品?유?형u
+	WndClass.hbrBackground	= (HBRUSH)GetStockObject(WHITE_BRUSH);//배?경튜?색?   
+	WndClass.lpszMenuName	= NULL;								 //메Ж?뉴ⅷ?이I름А?
+	WndClass.lpszClassName	= lpszClass;						 //클￢래ㄲ?스翠?이I름А?
+	RegisterClass(&WndClass);									 //앞?서品?정¤의C한N 윈ⓒ도伊?우칒 클￢래ㄲ?스翠?의C 주O소?
 
-	hwnd = CreateWindow(lpszClass,								 //윈도우가 생성되면 핸들(hwnd)이 반환
-		lpszClass,												 //윈도우 클래스, 타이틀 이름
-		WS_OVERLAPPEDWINDOW,									 //윈도우 스타일
-		100,											 //윈도우 위치, x좌표
-		50,											 //윈도우 위치, y좌표
-		600,											 //윈도우 폭   
-		400,											 //윈도우 높이   
-		NULL,													 //부모 윈도우 핸들	 
-		LoadMenu(hInstance, MAKEINTRESOURCE(IDR_MENU1)),													 //메뉴 핸들
-		hInstance,    											 //응용 프로그램 ID
-		NULL     												 //생성된 윈도우 정보
+	hwnd = CreateWindow(lpszClass,								 //윈ⓒ도伊?우칒가튀?생?성彼?되?면촦 핸U들?(hwnd)이I 반?환?
+		lpszClass,												 //윈ⓒ도伊?우칒 클￢래ㄲ?스翠? 타¸이I틀­?이I름А?
+		WS_OVERLAPPEDWINDOW,									 //윈ⓒ도伊?우칒 스翠?타¸일I
+		100,											 //윈ⓒ도伊?우칒 위§치¡, x좌A표￥
+		50,											 //윈ⓒ도伊?우칒 위§치¡, y좌A표￥
+		600,											 //윈ⓒ도伊?우칒 폭­?  
+		400,											 //윈ⓒ도伊?우칒 높?이I   
+		NULL,													 //부촇모З?윈ⓒ도伊?우칒 핸U들?	 
+		LoadMenu(hInstance, MAKEINTRESOURCE(IDR_MENU1)),													 //메Ж?뉴ⅷ?핸U들?
+		hInstance,    											 //응A용칎 프A로짪그쐴?램ㄱ?ID
+		NULL     												 //생?성彼?된? 윈ⓒ도伊?우칒 정¤보Б?
 	);
-	ShowWindow(hwnd, nCmdShow);									 //윈도우의 화면 출력
-	UpdateWindow(hwnd);											 //O/S 에 WM_PAINT 메시지 전송
+	ShowWindow(hwnd, nCmdShow);									 //윈ⓒ도伊?우칒의C 화­면촦 출a력짞
+	UpdateWindow(hwnd);											 //O/S 에??WM_PAINT 메Ж?시?지o 전u송?
 
-	while(GetMessage(&msg, NULL, 0, 0))							 //WinProc()에서 PostQuitMessage() 호출 때까지 처리
+	while(GetMessage(&msg, NULL, 0, 0))							 //WinProc()에??서品?PostQuitMessage() 호￡출a 때納?까푝지o 처³리Б?
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);									 //WinMain -> WinProc  
@@ -52,7 +52,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, //WINAPI : 윈�
 
 HDC hdc;
 
-static int x, y, mx, my;
+static int x, y, mx, my, Rx, Ry;
 int dx=20 ,dy=20;
 void CALLBACK TimerProc1(HWND hwnd, UINT iMsg, UINT ievent, DWORD dwTime)
 {
@@ -102,7 +102,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	switch (iMsg) 
 	{
 	case WM_CREATE:
-		SetTimer(hwnd, 1, 800, TimerProc1);
+		SetTimer(hwnd, 1, 1000, TimerProc1);
 		//SetTimer(hwnd, 2, 5000, TimerProc2);
 		x = 0;
 		y = 0;
@@ -122,17 +122,17 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		InvalidateRect(hwnd, NULL, FALSE);
 		break;
 
-	/*
+	
 	case WM_MOUSEMOVE:
-		x = LOWORD(lParam);
-		y = HIWORD(lParam);
+		Rx = LOWORD(lParam);
+		Ry = HIWORD(lParam);
 		
 		//m_count++;
 		//itoa(m_count, linebfr, 10);
 
-		InvalidateRect(hwnd, NULL, FALSE);
+		InvalidateRect(hwnd, NULL, TRUE);
 		break;
-	*/
+	
 
 	case WM_LBUTTONDOWN:
 
@@ -148,6 +148,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			//SetTimer(hwnd, 1, 800, TimerProc1);
 
 		}
+
+		
 
 
 		//m_count++;
@@ -206,7 +208,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	case WM_PAINT:
 		hdc = BeginPaint(hwnd, &ps);
 		SetTextColor(hdc, TextColor);
-		sprintf(score, "점수 : %d", count);
+		sprintf(score, "점¡수? : %d", count);
 		TextOut(hdc, 530, 0, score, strlen(score));
 
 		//TextOut(hdc, 100, 50, "        ",8 );
@@ -221,6 +223,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		*/
 		TextOut(hdc, oldX, oldY, "   ", 3 );
 		TextOut(hdc, x, y, "AS", 2 );
+		Rectangle(hdc, Rx-10,Ry-10,Rx+10,Ry+10);
+
 		oldX = x;
 		oldY = y;
 		
@@ -231,7 +235,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0);
 		break;
 	} 
-	return DefWindowProc(hwnd, iMsg, wParam, lParam);			 //CASE에서 정의되지 않은 메시지는 커널이 처리하도록 메시지 전달
+	return DefWindowProc(hwnd, iMsg, wParam, lParam);			 //CASE에??서品?정¤의C되?지o 않?은º 메Ж?시?지o는쩇 커¿널?이I 처³리Б?하I도伊?록짪 메Ж?시?지o 전u달ⅷ?
 }
 
 /*

@@ -1,0 +1,98 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define CACHE_SIZE 3
+
+// 캐시 항목 구조체
+typedef struct {
+    int value;
+    int lastUsed; // 마지막으로 사용된 시간을 추적합니다
+} CacheEntry;
+
+// 함수 원형
+void initCache(CacheEntry cache[]);
+void displayCache(CacheEntry cache[]);
+int findLRUIndex(CacheEntry cache[]);
+void accessCache(CacheEntry cache[], int value);
+
+int hit;
+
+int main() {
+    srand(time(NULL)); // 난수 발생기 시드 설정
+
+    CacheEntry cache[CACHE_SIZE];
+    initCache(cache);
+
+    // 캐시 접근 시뮬레이션
+    for (int i = 0; i < 10; i++) {
+        int value = rand() % 10 + 1; // 랜덤한 값 생성 (1-10)
+        printf("값 접근 중: %d\n", value);
+        accessCache(cache, value);
+        displayCache(cache);
+        printf("HIT : %d번\n", hit);
+    }
+
+    return 0;
+}
+
+// 캐시 항목 초기화
+void initCache(CacheEntry cache[]) {
+    for (int i = 0; i < CACHE_SIZE; i++) {
+        cache[i].value = -1; // 빈 캐시 항목 표시
+        cache[i].lastUsed = 0; // 마지막 사용 시간 초기화
+    }
+}
+
+// 캐시 내용 표시
+void displayCache(CacheEntry cache[]) {
+    printf("캐시 내용: ");
+    for (int i = 0; i < CACHE_SIZE; i++) {
+        if (cache[i].value != -1) {
+            printf("%d ", cache[i].value);
+        }
+        else {
+            printf("E "); // 비어 있는 캐시 항목 표시
+        }
+    }
+    printf("\n");
+}
+
+// 가장 최근에 사용되지 않은 캐시 항목의 인덱스 찾기
+int findLRUIndex(CacheEntry cache[]) {
+    int minIndex = 0;
+    time_t minLastUsed = cache[0].lastUsed;
+
+    for (int i = 1; i < CACHE_SIZE; i++) {
+        if (cache[i].lastUsed < minLastUsed) {
+            minIndex = i;
+            minLastUsed = cache[i].lastUsed;
+        }
+    }
+    return minIndex;
+}
+
+// 특정 값으로 캐시에 접근
+void accessCache(CacheEntry cache[], int value) {
+    // 값이 이미 캐시에 있는지 확인
+    for (int i = 0; i < CACHE_SIZE; i++) {
+        if (cache[i].value == value) {
+            cache[i].lastUsed = time(NULL); // 마지막 사용 시간 업데이트
+            hit++;
+            return;
+        }
+    }
+
+    // 캐시에서 값 찾지 못함, LRU 항목을 대체해야 함
+    int lruIndex = findLRUIndex(cache);
+
+    // LRU 항목을 찾고, 이를 교체할 새 값이 들어갈 자리를 확보하기 위해 뒤의 값들을 한 칸씩 뒤로 이동시킵니다.
+    for (int i = lruIndex; i < CACHE_SIZE - 1; i++) {
+        cache[i].value = cache[i + 1].value; // 앞으로 한 칸씩 이동
+        cache[i].lastUsed = cache[i + 1].lastUsed;
+    }
+    cache[CACHE_SIZE - 1].value = value; // 새로운 값 삽입
+    cache[CACHE_SIZE - 1].lastUsed = time(NULL); // 마지막 사용 시간 업데이트
+}
+
+
