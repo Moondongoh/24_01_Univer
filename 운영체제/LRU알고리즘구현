@@ -24,7 +24,7 @@ int main()
     for (int i = 0; i < 10; i++)
     {
         int value = rand() % 10 + 1;    // 랜덤한 값 생성 (1-10)
-        printf("값 접근 중: %d\n", value);
+        printf("[%d]값 접근 중: %d\n",i+1, value);
         accessCache(cache, value);      // 캐시 접근
         displayCache(cache);            // 캐시 상태 출력
     }
@@ -42,7 +42,7 @@ void initCache(CacheEntry cache[])
 
 void displayCache(CacheEntry cache[])
 {
-    printf("캐시 내용:  ");
+    printf("캐시 내용   :  ");
     for (int i = 0; i < CACHE_SIZE; i++)
     {
         if (cache[i].value != -1) {
@@ -53,7 +53,7 @@ void displayCache(CacheEntry cache[])
             printf("E ");   // 비어 있는 캐시 항목 표시
         }
     }
-    printf("\n");
+    printf("\n\n");
 }
 
 int findCacheIndex(CacheEntry cache[], int value)
