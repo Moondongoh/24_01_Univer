@@ -1,4 +1,5 @@
 #include <iostream>
+using namespace std;
 
 template <class T>
 class Stack {
@@ -28,11 +29,11 @@ public:
     }
 
     void printStack() {
-        std::cout << "현재 스택 내용: ";
+        cout << "현재 스택 내용: ";
         for (int i = 0; i <= top; ++i) {
-            std::cout << arr[i] << " ";
+            cout << arr[i] << " ";
         }
-        std::cout << std::endl;
+        cout << endl;
     }
 
     bool isEmpty() {
@@ -58,25 +59,25 @@ public:
     void push(T value) {
         if (isFull()) {
             resize(capacity_ + 5); // 스택이 다 차면 용량을 5씩 늘립니다.
-            std::cout << "======STACK_SIZE_UP기능======" << std::endl;
-            std::cout << "스택 크기가 " << capacity_ << "로 증가했습니다." << std::endl;
-            std::cout << "=============================" << std::endl << std::endl;
+            cout << "======STACK_SIZE_UP기능======" << endl;
+            cout << "스택 크기가 " << capacity_ << "로 증가했습니다." << endl;
+            cout << "=============================" << endl << endl;
         }
         arr[++top] = value;
-        printStack();
+        //printStack();
         size_++;
     }
 
     void push(int location, T value) {
         if (location < 0 || location > top + 1) {
-            std::cerr << "해당 위치에 값이 없습니다.\n\n";
+            cerr << "해당 위치에 값이 없습니다.\n\n";
             return;
         }
         if (isFull()) {
             resize(capacity_ + 5); // 스택이 다 차면 용량을 5씩 늘립니다.
-            std::cout << "======STACK_SIZE_UP기능======" << std::endl;
-            std::cout << "스택 크기가 " << capacity_ << "로 증가했습니다." << std::endl;
-            std::cout << "=============================" << std::endl << std::endl;
+            cout << "======STACK_SIZE_UP기능======" << endl;
+            cout << "스택 크기가 " << capacity_ << "로 증가했습니다." << endl;
+            cout << "=============================" << endl << endl;
         }
         for (int i = top; i >= location; --i) {
             arr[i + 1] = arr[i];
@@ -101,21 +102,21 @@ public:
 
     T pop() {
         if (isEmpty()) {
-            std::cerr << "스택이 비었습니다.\n\n";
+            cerr << "스택이 비었습니다.\n\n";
             return T();
         }
         T value = arr[top--];
         size_--;
         if (size_ < capacity_ - 5 && capacity_ > minCapacity) {
             resize(capacity_ - 5); // 스택 크기가 최소 크기 이상이면, 스택이 충분히 작아지면 용량을 5씩 줄입니다.
-            std::cout << "스택 크기가 " << capacity_ << "로 축소되었습니다." << std::endl << std::endl;
+            cout << "스택 크기가 " << capacity_ << "로 축소되었습니다." << endl << endl;
         }
         return value;
     }
 
     T pop(int location) {
         if (location < 0 || location > top) {
-            std::cerr << "해당 위치에 값이 없습니다.\n\n";
+            cerr << "해당 위치에 값이 없습니다.\n\n";
             return T();
         }
         T value = arr[location];
@@ -126,7 +127,7 @@ public:
         size_--;
         if (size_ < capacity_ - 5 && capacity_ > minCapacity) {
             resize(capacity_ - 5); // 스택 크기가 최소 크기 이상이면, 스택이 충분히 작아지면 용량을 5씩 줄입니다.
-            std::cout << "스택 크기가 " << capacity_ << "로 축소되었습니다." << std::endl << std::endl;
+            cout << "스택 크기가 " << capacity_ << "로 축소되었습니다." << endl << endl;
         }
         return value;
     }
@@ -145,16 +146,21 @@ private:
 
 int main() {
     Stack<int> stack(5);
-    std::cout << "=======기본 PUSH 기능=======" << std::endl;
+    cout << "=======기본 PUSH 기능=======" << endl;
     stack.push(1);
+    stack.printStack();
     stack.push(2);
+    stack.printStack();
     stack.push(3);
+    stack.printStack();
     stack.push(4);
+    stack.printStack();
     stack.push(5);
-    std::cout << "============================" << std::endl << std::endl;
+    stack.printStack();
+    cout << "============================" << endl << endl;
 
     stack.push(1, 10);
-    std::cout << "========PUSH_AT 기능========" << std::endl;
+    cout << "========PUSH_AT 기능========" << endl;
     stack.printStack();
     stack.push(2, 20);
     stack.printStack();
@@ -164,21 +170,28 @@ int main() {
     stack.printStack();
     stack.push(5, 50);
     stack.printStack();
-    std::cout << "==============================" << std::endl << std::endl;
+    cout << "==============================" << endl << endl;
 
     // 배열이 한번에 안들어가고 나눠서 들어가는 문제
-    int values[] = { 4, 5 };
+    int values[] = { 7, 77 };
     stack.push_range(values, 2);
-    std::cout << "========PUSH_RANGE 기능========" << std::endl;
-    //stack.push_range(1,values, 2);
+    cout << "========PUSH_RANGE 기능========" << endl;
+    stack.printStack();
+    int values[] = { 8, 88 };
+    stack.push_range(0,values, 2);
+    stack.printStack();
+    cout << "==============================" << endl << endl;
 
-    //stack.sort();
+    cout << "==========SORT 기능===========" << endl;
+    stack.sort();
+    stack.printStack();
+    cout << "==============================" << endl << endl;
 
-    //std::cout << std::endl << std::endl << std::endl << std::endl;
-    //std::cout << "꺼내진 값: " << stack.pop() << std::endl;
+    //cout << endl << endl << endl << endl;
+    //cout << "꺼내진 값: " << stack.pop() << endl;
 
 
-    //std::cout << "꺼내진 값의 위치1: " << stack.pop(1) << std::endl;
+    //cout << "꺼내진 값의 위치1: " << stack.pop(1) << endl;
     //stack.printStack();
 
     return 0;
