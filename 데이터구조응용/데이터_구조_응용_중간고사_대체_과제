@@ -172,13 +172,13 @@ int main() {
     stack.printStack();
     cout << "==============================" << endl << endl;
 
-    // 배열이 한번에 안들어가고 나눠서 들어가는 문제
     int values[] = { 7, 77 };
+    int location = 0;
     stack.push_range(values, 2);
     cout << "========PUSH_RANGE 기능========" << endl;
     stack.printStack();
-    int values[] = { 8, 88 };
-    stack.push_range(0,values, 2);
+    stack.push_range(location,values, 2);\
+    cout << "*" << location << "의 위치에서 부터 추가합니다.*" << endl;
     stack.printStack();
     cout << "==============================" << endl << endl;
 
@@ -187,12 +187,32 @@ int main() {
     stack.printStack();
     cout << "==============================" << endl << endl;
 
-    //cout << endl << endl << endl << endl;
-    //cout << "꺼내진 값: " << stack.pop() << endl;
-
-
-    //cout << "꺼내진 값의 위치1: " << stack.pop(1) << endl;
-    //stack.printStack();
+    cout << "=========기본 POP 기능=========" << endl;
+    cout << "꺼내진 값: " << stack.pop() << endl;
+    stack.printStack();
+    cout << "꺼내진 값: " << stack.pop() << endl;
+    stack.printStack();
+    cout << "꺼내진 값: " << stack.pop() << endl;
+    stack.printStack();
+    cout << "꺼내진 값: " << stack.pop() << endl;
+    stack.printStack();
+    cout << "꺼내진 값: " << stack.pop() << endl;
+    stack.printStack();
+    cout << "꺼내진 값: " << stack.pop() << endl;
+    stack.printStack();
+    cout << "꺼내진 값: " << stack.pop() << endl;
+    stack.printStack();
+    cout << "꺼내진 값: " << stack.pop() << endl;
+    stack.printStack();
+    cout << "꺼내진 값: " << stack.pop() << endl;
+    stack.printStack();
+    cout << "꺼내진 값: " << stack.pop() << endl;
+    stack.printStack();
+    cout << "=========위치 POP 기능=========" << endl;
+    cout << "꺼내진 값의 위치1: " << stack.pop(1) << endl;
+    stack.printStack();
+    cout << "===============================" << endl;
+    cout << "***데이터_구조_응용_중간_고사_대체_과제***" << endl;
 
     return 0;
 }
