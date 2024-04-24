@@ -9,40 +9,40 @@ COLORREF TextColor;
 
 LPCTSTR lpszClass = TEXT("New Title Hong Gil Dong");
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, //WINAPI : ìœˆâ“’ë„ä¼Š?ìš°ì¹’ í”„Aë¡œì§ªê·¸ì´?ë¨ã„±?ì´Ië¼?ëŠ”ì©‡ ì˜Cë¯¸?
-		   LPSTR lpszCmdLine, int nCmdShow)						 //hInstance : ìš´ì¹’ì˜??ì²´Â¼ì œ|ì˜C ì»¤Â¿ë„?ì´I ì‘Aìš©ì¹ í”„Aë¡œì§ªê·¸ì´?ë¨ã„±?ì—??ë¶€ì´‡ì—¬??í•œN ID
-{																 //szCmdLine : ì»¤Â¿ë©˜ì´¡íŠ¸ã€?ë¼?ì¸I ìƒ?ì—??ì„œå“?í”„Aë¡œì§ªê·¸ì´?ë¨ã„±?êµ¬ì¼?ë™é†«?ì‹œ? ì „uë‹¬â…·?ëœ? ë¬¸å–?ìUì—´??
-	HWND	hwnd;												 //iCmdShow : ìœˆâ“’ë„ä¼Š?ìš°ì¹’ê°€íŠ€?í™”Â­ë©´ì´¦ì—??ì¶œaë ¥ì§ë ? í˜•uíƒœA
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, //WINAPI : À©¨Ïµµì¥?¿ì¯i ÇÁA·Î¤I±×¾¡?·¥¤¡?ÀÌI¶ó?´Â¥A ÀÇC¹Ì?
+		   LPSTR lpszCmdLine, int nCmdShow)						 //hInstance : ¿î¯i¿µ??Ã¼¨ùÁ¦|ÀÇC Ä¿¢¯³Î?ÀÌI ÀÀA¿ë¯e ÇÁA·Î¤I±×¾¡?·¥¤¡?¿¡??ºÎ¬I¿©??ÇÑN ID
+{																 //szCmdLine : Ä¿¢¯¸à¬aÆ®¡¢?¶ó?ÀÎI »ó?¿¡??¼­ù¡?ÇÁA·Î¤I±×¾¡?·¥¤¡?±¸¾¢?µ¿ì¢?½Ã? Àüu´Ş¥¨?µÈ? ¹®ö¢?ÀÚU¿­??
+	HWND	hwnd;												 //iCmdShow : À©¨Ïµµì¥?¿ì¯i°¡Æ¢?È­¡©¸é¬e¿¡??Ãâa·Â¤AµÉ? ÇüuÅÂA
 	MSG		msg;
-	WNDCLASS WndClass;											 //WndClass ë¼?ëŠ”ì©‡ êµ¬ì¼?ì¡°Â¶ì²´Â¼ ì •Â¤ì˜C									 
-	WndClass.style			= CS_HREDRAW | CS_VREDRAW;			 //ì¶œaë ¥ì§ìŠ¤ç¿ ?íƒ€Â¸ì¼I : ìˆ˜?ì§Ã·/ìˆ˜?í‰ì£“ì˜C ë³€?í™”Â­ì‹œ? ë‹¤ì©¤ì‹œ? ê·¸ì´?ë¦¼Ğ—?
-	WndClass.lpfnWndProc	= WndProc;							 //í”„Aë¡œì§ªì‹œ?ì €u í•¨Oìˆ˜?ëª…ì´«
-	WndClass.cbClsExtra		= 0;								 //O/S ì‚¬?ìš©ì¹ ì—¬??ë¶„Ğ–?ë©”Ğ–?ëª¨Ğ—?ë¦¬Ğ‘?(Class)
-	WndClass.cbWndExtra		= 0;								 //O/s ì‚¬?ìš©ì¹ ì—¬??ë¶„Ğ–?ë©”Ğ–?ëª¨Ğ—?ë¦¬Ğ‘?(Window)
-	WndClass.hInstance		= hInstance;						 //ì‘Aìš©ì¹ í”„Aë¡œì§ªê·¸ì´?ë¨ã„±?ID
-	WndClass.hIcon			= LoadIcon(NULL, IDI_APPLICATION);	 //ì•„å¥š?ì´Iì½˜U ìœ ?í˜•u
-	WndClass.hCursor		= LoadCursor(NULL, IDC_ARROW);		 //ì»¤Â¿ì„œå“?ìœ ?í˜•u
-	WndClass.hbrBackground	= (HBRUSH)GetStockObject(WHITE_BRUSH);//ë°°?ê²½íŠœ?ìƒ‰?   
-	WndClass.lpszMenuName	= NULL;								 //ë©”Ğ–?ë‰´â…·?ì´Ië¦„Ğ?
-	WndClass.lpszClassName	= lpszClass;						 //í´ï¿¢ë˜ã„²?ìŠ¤ç¿ ?ì´Ië¦„Ğ?
-	RegisterClass(&WndClass);									 //ì•?ì„œå“?ì •Â¤ì˜Cí•œN ìœˆâ“’ë„ä¼Š?ìš°ì¹’ í´ï¿¢ë˜ã„²?ìŠ¤ç¿ ?ì˜C ì£¼Oì†Œ?
+	WNDCLASS WndClass;											 //WndClass ¶ó?´Â¥A ±¸¾¢?Á¶¢ÒÃ¼¨ù Á¤¢´ÀÇC									 
+	WndClass.style			= CS_HREDRAW | CS_VREDRAW;			 //Ãâa·Â¤A½ºö¨?Å¸¢¬ÀÏI : ¼ö?Á÷¡À/¼ö?Æò¡oÀÇC º¯?È­¡©½Ã? ´Ù¥U½Ã? ±×¾¡?¸²¬©?
+	WndClass.lpfnWndProc	= WndProc;							 //ÇÁA·Î¤I½Ã?Àúu ÇÔO¼ö?¸í¬i
+	WndClass.cbClsExtra		= 0;								 //O/S »ç?¿ë¯e ¿©??ºĞ¬¨?¸Ş¬¨?¸ğ¬©?¸®¬¢?(Class)
+	WndClass.cbWndExtra		= 0;								 //O/s »ç?¿ë¯e ¿©??ºĞ¬¨?¸Ş¬¨?¸ğ¬©?¸®¬¢?(Window)
+	WndClass.hInstance		= hInstance;						 //ÀÀA¿ë¯e ÇÁA·Î¤I±×¾¡?·¥¤¡?ID
+	WndClass.hIcon			= LoadIcon(NULL, IDI_APPLICATION);	 //¾Æú¨?ÀÌIÄÜU À¯?Çüu
+	WndClass.hCursor		= LoadCursor(NULL, IDC_ARROW);		 //Ä¿¢¯¼­ù¡?À¯?Çüu
+	WndClass.hbrBackground	= (HBRUSH)GetStockObject(WHITE_BRUSH);//¹è?°æÆ©?»ö?   
+	WndClass.lpszMenuName	= NULL;								 //¸Ş¬¨?´º¥¨?ÀÌI¸§¬¡?
+	WndClass.lpszClassName	= lpszClass;						 //Å¬¡ş·¡¤¢?½ºö¨?ÀÌI¸§¬¡?
+	RegisterClass(&WndClass);									 //¾Õ?¼­ù¡?Á¤¢´ÀÇCÇÑN À©¨Ïµµì¥?¿ì¯i Å¬¡ş·¡¤¢?½ºö¨?ÀÇC ÁÖO¼Ò?
 
-	hwnd = CreateWindow(lpszClass,								 //ìœˆâ“’ë„ä¼Š?ìš°ì¹’ê°€íŠ€?ìƒ?ì„±å½¼?ë˜?ë©´ì´¦ í•¸Uë“¤?(hwnd)ì´I ë°˜?í™˜?
-		lpszClass,												 //ìœˆâ“’ë„ä¼Š?ìš°ì¹’ í´ï¿¢ë˜ã„²?ìŠ¤ç¿ ? íƒ€Â¸ì´Ií‹€Â­?ì´Ië¦„Ğ?
-		WS_OVERLAPPEDWINDOW,									 //ìœˆâ“’ë„ä¼Š?ìš°ì¹’ ìŠ¤ç¿ ?íƒ€Â¸ì¼I
-		100,											 //ìœˆâ“’ë„ä¼Š?ìš°ì¹’ ìœ„Â§ì¹˜Â¡, xì¢ŒAí‘œï¿¥
-		50,											 //ìœˆâ“’ë„ä¼Š?ìš°ì¹’ ìœ„Â§ì¹˜Â¡, yì¢ŒAí‘œï¿¥
-		600,											 //ìœˆâ“’ë„ä¼Š?ìš°ì¹’ í­Â­?  
-		400,											 //ìœˆâ“’ë„ä¼Š?ìš°ì¹’ ë†’?ì´I   
-		NULL,													 //ë¶€ì´‡ëª¨Ğ—?ìœˆâ“’ë„ä¼Š?ìš°ì¹’ í•¸Uë“¤?	 
-		LoadMenu(hInstance, MAKEINTRESOURCE(IDR_MENU1)),													 //ë©”Ğ–?ë‰´â…·?í•¸Uë“¤?
-		hInstance,    											 //ì‘Aìš©ì¹ í”„Aë¡œì§ªê·¸ì´?ë¨ã„±?ID
-		NULL     												 //ìƒ?ì„±å½¼?ëœ? ìœˆâ“’ë„ä¼Š?ìš°ì¹’ ì •Â¤ë³´Ğ‘?
+	hwnd = CreateWindow(lpszClass,								 //À©¨Ïµµì¥?¿ì¯i°¡Æ¢?»ı?¼ºù¨?µÇ?¸é¬e ÇÚUµé?(hwnd)ÀÌI ¹İ?È¯?
+		lpszClass,												 //À©¨Ïµµì¥?¿ì¯i Å¬¡ş·¡¤¢?½ºö¨? Å¸¢¬ÀÌIÆ²¡©?ÀÌI¸§¬¡?
+		WS_OVERLAPPEDWINDOW,									 //À©¨Ïµµì¥?¿ì¯i ½ºö¨?Å¸¢¬ÀÏI
+		100,											 //À©¨Ïµµì¥?¿ì¯i À§¡×Ä¡¢®, xÁÂAÇ¥¡Í
+		50,											 //À©¨Ïµµì¥?¿ì¯i À§¡×Ä¡¢®, yÁÂAÇ¥¡Í
+		600,											 //À©¨Ïµµì¥?¿ì¯i Æø¡©?  
+		400,											 //À©¨Ïµµì¥?¿ì¯i ³ô?ÀÌI   
+		NULL,													 //ºÎ¬I¸ğ¬©?À©¨Ïµµì¥?¿ì¯i ÇÚUµé?	 
+		LoadMenu(hInstance, MAKEINTRESOURCE(IDR_MENU1)),													 //¸Ş¬¨?´º¥¨?ÇÚUµé?
+		hInstance,    											 //ÀÀA¿ë¯e ÇÁA·Î¤I±×¾¡?·¥¤¡?ID
+		NULL     												 //»ı?¼ºù¨?µÈ? À©¨Ïµµì¥?¿ì¯i Á¤¢´º¸¬¢?
 	);
-	ShowWindow(hwnd, nCmdShow);									 //ìœˆâ“’ë„ä¼Š?ìš°ì¹’ì˜C í™”Â­ë©´ì´¦ ì¶œaë ¥ì§
-	UpdateWindow(hwnd);											 //O/S ì—??WM_PAINT ë©”Ğ–?ì‹œ?ì§€o ì „uì†¡?
+	ShowWindow(hwnd, nCmdShow);									 //À©¨Ïµµì¥?¿ì¯iÀÇC È­¡©¸é¬e Ãâa·Â¤A
+	UpdateWindow(hwnd);											 //O/S ¿¡??WM_PAINT ¸Ş¬¨?½Ã?Áöo Àüu¼Û?
 
-	while(GetMessage(&msg, NULL, 0, 0))							 //WinProc()ì—??ì„œå“?PostQuitMessage() í˜¸ï¿¡ì¶œa ë•Œç´?ê¹Œí‘ì§€o ì²˜Â³ë¦¬Ğ‘?
+	while(GetMessage(&msg, NULL, 0, 0))							 //WinProc()¿¡??¼­ù¡?PostQuitMessage() È£¡ÌÃâa ¶§Ò¡?±î¾iÁöo Ã³©ø¸®¬¢?
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);									 //WinMain -> WinProc  
@@ -208,7 +208,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	case WM_PAINT:
 		hdc = BeginPaint(hwnd, &ps);
 		SetTextColor(hdc, TextColor);
-		sprintf(score, "ì Â¡ìˆ˜? : %d", count);
+		sprintf(score, "Á¡¢®¼ö? : %d", count);
 		TextOut(hdc, 530, 0, score, strlen(score));
 
 		//TextOut(hdc, 100, 50, "        ",8 );
@@ -235,7 +235,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0);
 		break;
 	} 
-	return DefWindowProc(hwnd, iMsg, wParam, lParam);			 //CASEì—??ì„œå“?ì •Â¤ì˜Cë˜?ì§€o ì•Š?ì€Âº ë©”Ğ–?ì‹œ?ì§€oëŠ”ì©‡ ì»¤Â¿ë„?ì´I ì²˜Â³ë¦¬Ğ‘?í•˜Ië„ä¼Š?ë¡ì§ª ë©”Ğ–?ì‹œ?ì§€o ì „uë‹¬â…·?
+	return DefWindowProc(hwnd, iMsg, wParam, lParam);			 //CASE¿¡??¼­ù¡?Á¤¢´ÀÇCµÇ?Áöo ¾Ê?Àº¨¬ ¸Ş¬¨?½Ã?Áöo´Â¥A Ä¿¢¯³Î?ÀÌI Ã³©ø¸®¬¢?ÇÏIµµì¥?·Ï¤I ¸Ş¬¨?½Ã?Áöo Àüu´Ş¥¨?
 }
 
 /*
