@@ -2,51 +2,62 @@
 using namespace std;
 
 template <class T>
-class Stack {
+class Stack 
+{
 private:
-    T* arr;
-    int top;
-    int capacity_;
-    int size_;
-    int minCapacity;
+    T* arr; // 배열 가르키는 포인터
+    int top; // 스택 가장 상단 인덱스
+    int capacity_; // 스택 용량
+    int size_; // 스택 안 데이터 수
+    int minCapacity; // 이 미만으로 내려가면 스택 변경
 
 public:
-    Stack(int capacity) : capacity_(capacity), size_(0), minCapacity(capacity) {
+    Stack(int capacity) : capacity_(capacity), size_(0), minCapacity(capacity) 
+    {
         arr = new T[capacity];
         top = -1;
     }
 
-    ~Stack() {
+    ~Stack() 
+    {
         delete[] arr;
     }
 
-    int capacity() {
+    int capacity() 
+    {
         return capacity_;
     }
 
-    int size() {
+    int size() 
+    {
         return size_;
     }
 
-    void printStack() {
+    void printStack() 
+    {
         cout << "현재 스택 내용: ";
-        for (int i = 0; i <= top; ++i) {
+        for (int i = 0; i <= top; ++i) 
+        {
             cout << arr[i] << " ";
         }
         cout << endl;
     }
 
-    bool isEmpty() {
+    bool isEmpty() 
+    {
         return top == -1;
     }
 
-    bool isFull() {
+    bool isFull() 
+    {
         return top == capacity_ - 1;
     }
 
     void sort() {
-        for (int i = 0; i <= top; ++i) {
-            for (int j = i + 1; j <= top; ++j) {
+        for (int i = 0; i <= top; ++i) 
+        {
+            for (int j = i + 1; j <= top; ++j) 
+            {
                 if (arr[i] > arr[j]) {
                     T temp = arr[i];
                     arr[i] = arr[j];
@@ -56,9 +67,11 @@ public:
         }
     }
 
-    void push(T value) {
-        if (isFull()) {
-            resize(capacity_ + 5); // 스택이 다 차면 용량을 5씩 늘립니다.
+    void push(T value) 
+    {
+        if (isFull()) 
+        {
+            resize(capacity_ + 5); // 사이즈 업
             cout << "======STACK_SIZE_UP기능======" << endl;
             cout << "스택 크기가 " << capacity_ << "로 증가했습니다." << endl;
             cout << "=============================" << endl << endl;
@@ -68,74 +81,99 @@ public:
         size_++;
     }
 
-    void push(int location, T value) {
-        if (location < 0 || location > top + 1) {
+    void push(int location, T value) 
+    {
+        if (location < 0 || location > top + 1) 
+        {
             cerr << "해당 위치에 값이 없습니다.\n\n";
             return;
         }
-        if (isFull()) {
-            resize(capacity_ + 5); // 스택이 다 차면 용량을 5씩 늘립니다.
+
+        if (isFull()) 
+        {
+            resize(capacity_ + 5); // 사이즈 업
             cout << "======STACK_SIZE_UP기능======" << endl;
             cout << "스택 크기가 " << capacity_ << "로 증가했습니다." << endl;
             cout << "=============================" << endl << endl;
         }
-        for (int i = top; i >= location; --i) {
+
+        for (int i = top; i >= location; --i) 
+        {
             arr[i + 1] = arr[i];
         }
+
         arr[location] = value;
         //printStack();
         top++;
         size_++;
     }
 
-    void push_range(T values[], int arrSize) {
-        for (int i = 0; i < arrSize; ++i) {
+    void push_range(T values[], int arrSize) 
+    {
+        for (int i = 0; i < arrSize; ++i) 
+        {
             push(values[i]);
         }
     }
 
-    void push_range(int location, T values[], int arrSize) {
-        for (int i = arrSize - 1; i >= 0; --i) {
+    void push_range(int location, T values[], int arrSize) 
+    {
+        for (int i = arrSize - 1; i >= 0; --i) 
+        {
             push(location, values[i]);
         }
     }
 
-    T pop() {
-        if (isEmpty()) {
+    T pop() 
+    {
+        if (isEmpty()) 
+        {
             cerr << "스택이 비었습니다.\n\n";
             return T();
         }
+
         T value = arr[top--];
         size_--;
-        if (size_ < capacity_ - 5 && capacity_ > minCapacity) {
-            resize(capacity_ - 5); // 스택 크기가 최소 크기 이상이면, 스택이 충분히 작아지면 용량을 5씩 줄입니다.
+        if (size_ < capacity_ - 5 && capacity_ > minCapacity) 
+        {
+            resize(capacity_ - 5); // 사이즈 다운
             cout << "스택 크기가 " << capacity_ << "로 축소되었습니다." << endl << endl;
         }
         return value;
     }
 
-    T pop(int location) {
-        if (location < 0 || location > top) {
+    T pop(int location) 
+    {
+        if (location < 0 || location > top) 
+        {
             cerr << "해당 위치에 값이 없습니다.\n\n";
             return T();
         }
+
         T value = arr[location];
-        for (int i = location; i < top; ++i) {
+
+        for (int i = location; i < top; ++i) 
+        {
             arr[i] = arr[i + 1];
         }
+
         top--;
         size_--;
-        if (size_ < capacity_ - 5 && capacity_ > minCapacity) {
-            resize(capacity_ - 5); // 스택 크기가 최소 크기 이상이면, 스택이 충분히 작아지면 용량을 5씩 줄입니다.
+
+        if (size_ < capacity_ - 5 && capacity_ > minCapacity) 
+        {
+            resize(capacity_ - 5); // 사이즈 다운
             cout << "스택 크기가 " << capacity_ << "로 축소되었습니다." << endl << endl;
         }
         return value;
     }
 
 private:
-    void resize(int newCapacity) {
+    void resize(int newCapacity) 
+    {
         T* newArr = new T[newCapacity];
-        for (int i = 0; i <= top; ++i) {
+        for (int i = 0; i <= top; ++i) 
+        {
             newArr[i] = arr[i];
         }
         delete[] arr;
@@ -144,7 +182,8 @@ private:
     }
 };
 
-int main() {
+int main() 
+{
     Stack<int> stack(5);
     cout << "=======기본 PUSH 기능=======" << endl;
     stack.push(1);
@@ -173,11 +212,17 @@ int main() {
     cout << "==============================" << endl << endl;
 
     int values[] = { 7, 77 };
+
     int location = 0;
+
     stack.push_range(values, 2);
+
     cout << "========PUSH_RANGE 기능========" << endl;
     stack.printStack();
-    stack.push_range(location,values, 2);\
+    stack.push_range(location,values, 2);
+    cout << "==============================" << endl << endl;
+
+    cout << "=====PUSH_RANGE +index기능=====" << endl;
     cout << "*" << location << "의 위치에서 부터 추가합니다.*" << endl;
     stack.printStack();
     cout << "==============================" << endl << endl;
@@ -188,7 +233,7 @@ int main() {
     cout << "==============================" << endl << endl;
 
     cout << "=========기본 POP 기능=========" << endl;
-    cout << "꺼내진 값: " << stack.pop() << endl;
+    cout << "꺼내진 값: " << stack.pop() << endl;  
     stack.printStack();
     cout << "꺼내진 값: " << stack.pop() << endl;
     stack.printStack();
@@ -208,10 +253,12 @@ int main() {
     stack.printStack();
     cout << "꺼내진 값: " << stack.pop() << endl;
     stack.printStack();
+
     cout << "=========위치 POP 기능=========" << endl;
     cout << "꺼내진 값의 위치1: " << stack.pop(1) << endl;
     stack.printStack();
     cout << "===============================" << endl;
+
     cout << "***데이터_구조_응용_중간_고사_대체_과제***" << endl;
 
     return 0;
