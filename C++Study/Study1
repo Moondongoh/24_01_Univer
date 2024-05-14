@@ -66,5 +66,5 @@ int main(void)
 
 	//cout << "전화번호2 : " << phone2 << endl;
 
-	return 0;
+	//return 0;
 }
