@@ -164,7 +164,7 @@ def randomize_puzzle(event):
         plt.draw()
         print("재시작")
 
-# 버튼 생성 첫 번째 버튼 (Solve)
+# 첫 번째 버튼 (Solve)
 button_ax1 = plt.axes([0.1, 0.02, 0.15, 0.05])
 button1 = Button(button_ax1, 'Solve')
 
