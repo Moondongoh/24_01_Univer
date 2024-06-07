@@ -15,13 +15,13 @@ imgList2 = random.sample(imgList1, 9)
 
 # 이미지 로드 헬퍼 함수
 def load_images(imgList):
-    return [cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB) for img in imgList]
+    return [cv2.imread(img) for img in imgList]
 
 # 이미지 로드
 images = load_images(imgList2)
-img0 = cv2.cvtColor(cv2.imread('num_0.png'), cv2.COLOR_BGR2RGB)
+img0 = cv2.imread('num_0.png')
 
-# 이미지 표시
+# 이미지 표시 --> 3X3 형태로 가로 5 세로 5 크기인 사진 나열
 fig, axes = plt.subplots(3, 3, figsize=(5, 5))
 
 for i, ax in enumerate(axes.flat):
@@ -35,6 +35,7 @@ def update_image(pos, new_img):
     ax.clear()
     ax.imshow(new_img)
     ax.axis('off')
+    # 결국에는 다시 그리는거임
     plt.draw()
 
 # 지정된 위치의 이미지를 교체
@@ -43,37 +44,42 @@ def swap_images(pos1, pos2):
     update_image(pos1, images[pos1])
     update_image(pos2, images[pos2])
 
-# 현재 배치 상태가 성공인지 확인
-def check_success():
-    target_order = imgList11 + imgList12 + imgList13
-    return imgList2 == target_order
-
 # 휴리스틱 함수
 def heuristic(state):
     target = imgList11 + imgList12 + imgList13
     return sum(s != t for s, t in zip(state, target))
+# state = [1, 2, 3], target = [4, 5, 6]이라면 
+# zip(state, target)의 결과는 [(1, 4), (2, 5), (3, 6)]이 되는데
+# 1!=4, 2!=5, 3!=6 --> true true true 이렇게 반환 차이의 갯수를 반환하는거임
 
 # 가능한 이동을 반환하는 함수
 def get_neighbors(state):
+    # 가능한 이동 한 후 상태를 저장할 리스트
     neighbors = []
-    zero_index = state.index('num_0.png')
+    # 숫자 0의위치
+    zero_index = state.index('num_0.png') # 이동 가능한 숫자 0을 지정
+    # 0의 위치를 ?,?로 맹금
     row, col = divmod(zero_index, 3)
 
     def swap_and_create(new_index):
-        new_state = state[:]
-        new_state[zero_index], new_state[new_index] = new_state[new_index], new_state[zero_index]
-        neighbors.append(new_state)
-
-    if row > 0: swap_and_create(zero_index - 3)
-    if row < 2: swap_and_create(zero_index + 3)
-    if col > 0: swap_and_create(zero_index - 1)
-    if col < 2: swap_and_create(zero_index + 1)
+        #현재 상태 복사
+        new_state = state[:] 
+        #쉽게 0이랑 자리 바꿈
+        new_state[zero_index], new_state[new_index] = new_state[new_index], new_state[zero_index] 
+        neighbors.append(new_state) #리스트에 추가 바꾼 수
+    
+    # 빈 공간이 0을 뜻
+    if row > 0: swap_and_create(zero_index - 3) #빈 공간이 맨위에 있지 않다 위쪽 ㄱㄱ
+    if row < 2: swap_and_create(zero_index + 3) #빈 공간이 아래에 있지 않다 아래 ㄱㄱ
+    if col > 0: swap_and_create(zero_index - 1) #빈 공간이 왼쪽에 있지 않다 왼쪽 ㄱㄱ
+    if col < 2: swap_and_create(zero_index + 1) #빈 공간이 오른쪽에 있지않다 오른쪽 ㄱㄱ
 
     return neighbors
 
 # A* 알고리즘
 def astar(start, goal):
     frontier = [(heuristic(start), start)]
+    # frontier를 힙 형태로 변환하는거
     heapq.heapify(frontier)
     came_from = {tuple(start): None}
     cost_so_far = {tuple(start): 0}
@@ -83,9 +89,11 @@ def astar(start, goal):
 
         if current == goal:
             break
-
+        # 숫자 0이 움직일 수 있는 위치임
         for neighbor in get_neighbors(current):
+            # neighbor로 움직였으니 비용 하나 올림
             new_cost = cost_so_far[tuple(current)] + 1
+            # 처음 방문한 위치 혹은 새로운 비용이 기존 비용보다 적을 때 우선 순위 갱쉰
             if tuple(neighbor) not in cost_so_far or new_cost < cost_so_far[tuple(neighbor)]:
                 cost_so_far[tuple(neighbor)] = new_cost
                 priority = new_cost + heuristic(neighbor)
@@ -103,56 +111,74 @@ def astar(start, goal):
 
 # 클릭 이벤트 핸들러
 def add_point(event):
+    # 마우스 왼쪽 클릭 확인
     if event.button == 1:
         fore = pyautogui.getActiveWindow()
+        # 커서 위치
         pos = pyautogui.position()
         x = pos.x - fore.left
         y = pos.y - fore.top
         print("클릭 : ", x, ", ", y)
         
+        # 75, 95 보정값 130은 셀 크기
         grid_x = (x - 75) // 130
         grid_y = (y - 95) // 130
         
         if 0 <= grid_x < 3 and 0 <= grid_y < 3:
             clicked_index = grid_y * 3 + grid_x
+            # 클릭 위치가 0이 아닐때
             if imgList2[clicked_index] != 'num_0.png':
                 # 십자에서 0번사진 찾기
-                adjacent_indices = []
+                # 인접 셀 리스트 초기화
+                near_cell = []
+                # 왼
                 if grid_x > 0:
-                    adjacent_indices.append(clicked_index - 1)
+                    near_cell.append(clicked_index - 1)
+                # 오
                 if grid_x < 2:
-                    adjacent_indices.append(clicked_index + 1)
+                    near_cell.append(clicked_index + 1)
+                # 위
                 if grid_y > 0:
-                    adjacent_indices.append(clicked_index - 3)
+                    near_cell.append(clicked_index - 3)
+                # 아
                 if grid_y < 2:
-                    adjacent_indices.append(clicked_index + 3)
+                    near_cell.append(clicked_index + 3)
                 
-                for adj_index in adjacent_indices:
+                # 리스트에 4개의 셀에서 0을 찾으면 교환
+                for adj_index in near_cell :
                     if imgList2[adj_index] == 'num_0.png':
+                        # 클릭이랑 0이랑 교환 ㄱㄱ
                         swap_images(clicked_index, adj_index)
                         imgList2[clicked_index], imgList2[adj_index] = imgList2[adj_index], imgList2[clicked_index]
-                        
-                        if check_success():
-                            pyautogui.alert("축하합니다! 퍼즐을 완성했습니다.")
                         break
 
 # Solve 버튼 클릭 핸들러
 def solve_puzzle(event):
+    # 클릭 이벤트가 button_ax1 여기에 발생 했는지 확인
     if event.inaxes == button_ax1:
+        # 완성본
         goal = imgList11 + imgList12 + imgList13
         path = astar(imgList2, goal)
         for state in path:
+            # 현재 퍼즐 상태 업데이트
             imgList2[:] = state
+            # 새로운 상태에 맞게 이미지 로드
             images[:] = load_images(imgList2)
+            # 반복문을 이용해 이미지 업로드
             for i, ax in enumerate(axes.flat):
+                # 축 지우기
                 ax.clear()
+                # 이미지 표시
                 ax.imshow(images[i])
+                # 격자? 눈금 지우는거
                 ax.axis('off')
-            plt.pause(0.1) #속도 조절은 이걸로하면 됌
-        pyautogui.alert("퍼즐을 자동으로 풀었습니다!")
+            #속도 조절은 이걸로하면 됌    
+            plt.pause(0.1) 
+        pyautogui.alert("완성")
 
 # Random 버튼 클릭 핸들러
 def randomize_puzzle(event):
+    # event.inaxes 는 마우스 이벤트 처리 라이브러리
     if event.inaxes == button_ax2:
         global imgList2, images
         imgList2 = random.sample(imgList1, 9)
@@ -164,7 +190,7 @@ def randomize_puzzle(event):
         plt.draw()
         print("재시작")
 
-# 첫 번째 버튼 (Solve)
+# 버튼 생성 첫 번째 버튼 (Solve)
 button_ax1 = plt.axes([0.1, 0.02, 0.15, 0.05])
 button1 = Button(button_ax1, 'Solve')
 
