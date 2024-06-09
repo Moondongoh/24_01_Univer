@@ -7,9 +7,15 @@ from matplotlib.widgets import Button
 import heapq
 
 # 이미지 로드
-imgList11 = ['num_1.png', 'num_2.png', 'num_3.png']
-imgList12 = ['num_4.png', 'num_5.png', 'num_6.png']
-imgList13 = ['num_7.png', 'num_8.png', 'num_0.png']
+#imgList11 = ['num_1.png', 'num_2.png', 'num_3.png']
+#imgList12 = ['num_4.png', 'num_5.png', 'num_6.png']
+#imgList13 = ['num_7.png', 'num_8.png', 'num_0.png']
+
+
+#imgList11 = ['num_0.png', 'num_8.png', 'num_7.png']
+#imgList12 = ['num_6.png', 'num_5.png', 'num_4.png']
+#imgList13 = ['num_3.png', 'num_2.png', 'num_1.png']
+
 imgList1 = imgList11 + imgList12 + imgList13
 imgList2 = random.sample(imgList1, 9)
 
@@ -85,6 +91,7 @@ def astar(start, goal):
     cost_so_far = {tuple(start): 0}
 
     while frontier:
+        # 최솟값을 찾는 부분
         _, current = heapq.heappop(frontier)
 
         if current == goal:
