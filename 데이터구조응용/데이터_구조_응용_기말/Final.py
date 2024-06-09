@@ -7,17 +7,26 @@ from matplotlib.widgets import Button
 import heapq
 
 # 이미지 로드
-#imgList11 = ['num_1.png', 'num_2.png', 'num_3.png']
-#imgList12 = ['num_4.png', 'num_5.png', 'num_6.png']
-#imgList13 = ['num_7.png', 'num_8.png', 'num_0.png']
+imgList11 = ['num_1.png', 'num_2.png', 'num_3.png']
+imgList12 = ['num_4.png', 'num_5.png', 'num_6.png']
+imgList13 = ['num_7.png', 'num_8.png', 'num_0.png']
 
+# 한칸만 움직이면됌
+#imgList111 = ['num_1.png', 'num_2.png', 'num_3.png']
+#imgList123 = ['num_4.png', 'num_5.png', 'num_0.png']
+#imgList134 = ['num_7.png', 'num_8.png', 'num_6.png']
 
-#imgList11 = ['num_0.png', 'num_8.png', 'num_7.png']
-#imgList12 = ['num_6.png', 'num_5.png', 'num_4.png']
-#imgList13 = ['num_3.png', 'num_2.png', 'num_1.png']
+# 역순
+imgList114 = ['num_0.png', 'num_8.png', 'num_7.png']
+imgList125 = ['num_6.png', 'num_5.png', 'num_4.png']
+imgList136 = ['num_3.png', 'num_2.png', 'num_1.png']
 
 imgList1 = imgList11 + imgList12 + imgList13
-imgList2 = random.sample(imgList1, 9)
+#imgList2 = random.sample(imgList1, 9)
+
+#imgList2 = imgList111 + imgList123 + imgList134
+
+imgList2 = imgList114 + imgList125 + imgList136
 
 # 이미지 로드 헬퍼 함수
 def load_images(imgList):
@@ -41,7 +50,7 @@ def update_image(pos, new_img):
     ax.clear()
     ax.imshow(new_img)
     ax.axis('off')
-    # 결국에는 다시 그리는거임
+    # 다시 그리기
     plt.draw()
 
 # 지정된 위치의 이미지를 교체
@@ -52,8 +61,15 @@ def swap_images(pos1, pos2):
 
 # 휴리스틱 함수
 def heuristic(state):
-    target = imgList11 + imgList12 + imgList13
-    return sum(s != t for s, t in zip(state, target))
+    global imgList1
+
+    for index, t in enumerate(state) :
+        print(f"{index + 1}: {state}")
+
+    #for s, t in zip(state, imgList1):
+    #    print(f"현 상태: {state}")
+              #, 목표: {imgList1}")
+    return sum(s != t for s, t in zip(state, imgList1))
 # state = [1, 2, 3], target = [4, 5, 6]이라면 
 # zip(state, target)의 결과는 [(1, 4), (2, 5), (3, 6)]이 되는데
 # 1!=4, 2!=5, 3!=6 --> true true true 이렇게 반환 차이의 갯수를 반환하는거임
@@ -68,7 +84,7 @@ def get_neighbors(state):
     row, col = divmod(zero_index, 3)
 
     def swap_and_create(new_index):
-        #현재 상태 복사
+        #변경된 점을 원래거에 지장없이 변경
         new_state = state[:] 
         #쉽게 0이랑 자리 바꿈
         new_state[zero_index], new_state[new_index] = new_state[new_index], new_state[zero_index] 
@@ -83,7 +99,7 @@ def get_neighbors(state):
     return neighbors
 
 # A* 알고리즘
-def astar(start, goal):
+def astar(start, imgList1):
     frontier = [(heuristic(start), start)]
     # frontier를 힙 형태로 변환하는거
     heapq.heapify(frontier)
@@ -94,7 +110,7 @@ def astar(start, goal):
         # 최솟값을 찾는 부분
         _, current = heapq.heappop(frontier)
 
-        if current == goal:
+        if current == imgList1:
             break
         # 숫자 0이 움직일 수 있는 위치임
         for neighbor in get_neighbors(current):
@@ -109,10 +125,14 @@ def astar(start, goal):
 
     # 경로를 재구성
     path = []
-    current = goal
-    while current != start:
-        path.append(current)
-        current = came_from[tuple(current)]
+    current = tuple(imgList1)
+    while current != tuple(start):
+        path.append(list(current))
+        if current in came_from:
+            current = tuple(came_from[current])
+        else:
+            print("경로를 찾을 수 없습니다.")
+            return None
     path.reverse()
     return path
 
@@ -152,20 +172,30 @@ def add_point(event):
                     near_cell.append(clicked_index + 3)
                 
                 # 리스트에 4개의 셀에서 0을 찾으면 교환
-                for adj_index in near_cell :
-                    if imgList2[adj_index] == 'num_0.png':
+                for near_index in near_cell :
+                    if imgList2[near_index] == 'num_0.png':
                         # 클릭이랑 0이랑 교환 ㄱㄱ
-                        swap_images(clicked_index, adj_index)
-                        imgList2[clicked_index], imgList2[adj_index] = imgList2[adj_index], imgList2[clicked_index]
+                        swap_images(clicked_index, near_index)
+                        imgList2[clicked_index], imgList2[near_index] = imgList2[near_index], imgList2[clicked_index]
                         break
 
-# Solve 버튼 클릭 핸들러
+# Solve 버튼
 def solve_puzzle(event):
     # 클릭 이벤트가 button_ax1 여기에 발생 했는지 확인
     if event.inaxes == button_ax1:
         # 완성본
-        goal = imgList11 + imgList12 + imgList13
-        path = astar(imgList2, goal)
+        global imgList1
+        path = astar(imgList2, imgList1)
+        if path is None:
+            print("경로를 찾을 수 없습니다.")
+            return
+        
+        # 경로 출력
+        print("********************************************************************")
+        print("찾은 경로:")
+        for index, route in enumerate(path):
+            print(f"{index + 1}: {route}")
+
         for state in path:
             # 현재 퍼즐 상태 업데이트
             imgList2[:] = state
@@ -183,7 +213,7 @@ def solve_puzzle(event):
             plt.pause(0.1) 
         pyautogui.alert("완성")
 
-# Random 버튼 클릭 핸들러
+# Random 버튼
 def randomize_puzzle(event):
     # event.inaxes 는 마우스 이벤트 처리 라이브러리
     if event.inaxes == button_ax2:
