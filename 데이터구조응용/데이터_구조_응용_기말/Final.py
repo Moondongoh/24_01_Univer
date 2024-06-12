@@ -17,16 +17,16 @@ imgList13 = ['num_7.png', 'num_8.png', 'num_0.png']
 #imgList134 = ['num_7.png', 'num_8.png', 'num_6.png']
 
 # 역순
-imgList114 = ['num_0.png', 'num_8.png', 'num_7.png']
-imgList125 = ['num_6.png', 'num_5.png', 'num_4.png']
-imgList136 = ['num_3.png', 'num_2.png', 'num_1.png']
+#imgList114 = ['num_0.png', 'num_8.png', 'num_7.png']
+#imgList125 = ['num_6.png', 'num_5.png', 'num_4.png']
+#imgList136 = ['num_3.png', 'num_2.png', 'num_1.png']
 
 imgList1 = imgList11 + imgList12 + imgList13
-#imgList2 = random.sample(imgList1, 9)
+imgList2 = random.sample(imgList1, 9)
 
 #imgList2 = imgList111 + imgList123 + imgList134
 
-imgList2 = imgList114 + imgList125 + imgList136
+#imgList2 = imgList114 + imgList125 + imgList136
 
 # 이미지 로드 헬퍼 함수
 def load_images(imgList):
@@ -63,12 +63,14 @@ def swap_images(pos1, pos2):
 def heuristic(state):
     global imgList1
 
-    for index, t in enumerate(state) :
-        print(f"{index + 1}: {state}")
+    # t는 state 리스트의 한개의 요소임
+    #for index, t in enumerate(state) :
+    #    print(f"{index + 1}: {state}")
 
     #for s, t in zip(state, imgList1):
     #    print(f"현 상태: {state}")
               #, 목표: {imgList1}")
+
     return sum(s != t for s, t in zip(state, imgList1))
 # state = [1, 2, 3], target = [4, 5, 6]이라면 
 # zip(state, target)의 결과는 [(1, 4), (2, 5), (3, 6)]이 되는데
@@ -122,6 +124,7 @@ def astar(start, imgList1):
                 priority = new_cost + heuristic(neighbor)
                 heapq.heappush(frontier, (priority, neighbor))
                 came_from[tuple(neighbor)] = current
+                #print(f"움직임 : {neighbor} 탐색 {current}")
 
     # 경로를 재구성
     path = []
@@ -214,7 +217,7 @@ def solve_puzzle(event):
         pyautogui.alert("완성")
 
 # Random 버튼
-def randomize_puzzle(event):
+def random_puzzle(event):
     # event.inaxes 는 마우스 이벤트 처리 라이브러리
     if event.inaxes == button_ax2:
         global imgList2, images
@@ -237,7 +240,7 @@ button2 = Button(button_ax2, 'Random')
 
 # 버튼 클릭 이벤트 핸들러 연결
 button1.on_clicked(solve_puzzle)
-button2.on_clicked(randomize_puzzle)
+button2.on_clicked(random_puzzle)
 
 # 이벤트 연결
 cid = plt.connect('button_press_event', add_point)
