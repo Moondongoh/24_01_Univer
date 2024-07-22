@@ -1,4 +1,3 @@
-//// 스레드를 여러개 사용하고 하나의 변수에 저장하는중.
 //#include <windows.h>
 //#include <stdio.h>
 //#include <time.h>
@@ -9,6 +8,8 @@
 //    DWORD start;
 //    DWORD step;
 //} ThreadArgs;
+//
+//volatile LONG total_prime_count = 0; // 전역 변수
 //
 //// 소수 여부를 판별하는 함수
 //int is_prime(long long num) {
@@ -30,7 +31,8 @@
 //            count++;
 //        }
 //    }
-//    return count;
+//    InterlockedAdd(&total_prime_count, count); // 전역 변수에 누적
+//    return 0;
 //}
 //
 //int main() {
@@ -39,13 +41,13 @@
 //    int num_configs = sizeof(thread_counts) / sizeof(thread_counts[0]); // 배열 길이
 //    HANDLE hThreads[32];
 //    DWORD threadIds[32];
-//    int results[32] = { 0 };
 //    ThreadArgs args[32];
 //
 //    for (int i = 0; i < num_configs; i++) {
 //        int num_threads = thread_counts[i]; // 현재 설정된 스레드 개수
 //        clock_t start, end;
 //        start = clock();
+//        total_prime_count = 0; // 초기화
 //
 //        for (int t = 0; t < num_threads; t++) {
 //            args[t].start = t + 1;
@@ -61,21 +63,14 @@
 //        // 모든 스레드의 완료를 대기
 //        WaitForMultipleObjects(num_threads, hThreads, TRUE, INFINITE);
 //
-//        // 각 스레드에서의 결과를 가져옴
+//        // 스레드 핸들을 닫음
 //        for (int t = 0; t < num_threads; t++) {
-//            DWORD exitCode;
-//            if (GetExitCodeThread(hThreads[t], &exitCode)) {
-//                results[t] = exitCode;
-//            }
-//            else {
-//                printf("스레드 %d의 종료 코드를 가져오는 중 오류 발생. 오류 코드: %lu\n", t, GetLastError());
-//            }
 //            CloseHandle(hThreads[t]);
 //        }
 //
 //        end = clock();
 //        double total_time = (double)(end - start) / CLOCKS_PER_SEC;
-//        printf("스레드 개수: %d, 소요 시간: %f 초, 찾은 소수 개수: %d\n", num_threads, total_time, results[0]);
+//        printf("스레드 개수: %d, 소요 시간: %f 초, 찾은 소수 개수: %ld\n", num_threads, total_time, total_prime_count);
 //    }
 //
 //    return 0;

@@ -1,5 +1,2 @@
-﻿  2번_소스.c
-C:\Users\mdh38\OneDrive\바탕 화면\Git_Hub\24_01_Univer\API\쓰레드_소수_찾기\쓰레드_소수_찾기\2번_소스.c(25,37): warning C4244: '함수': '__int64'에서 'double'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\mdh38\OneDrive\바탕 화면\Git_Hub\24_01_Univer\API\쓰레드_소수_찾기\쓰레드_소수_찾기\2번_소스.c(104,5): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\mdh38\OneDrive\바탕 화면\Git_Hub\24_01_Univer\API\쓰레드_소수_찾기\쓰레드_소수_찾기\2번_소스.c(106,5): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+﻿  3번_소스.cpp
   쓰레드_소수_찾기.vcxproj -> C:\Users\mdh38\OneDrive\바탕 화면\Git_Hub\24_01_Univer\API\쓰레드_소수_찾기\x64\Debug\쓰레드_소수_찾기.exe
